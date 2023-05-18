@@ -1,0 +1,110 @@
+<!--
+  Generated template for the HomePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons>
+      <button ion-button icon-only menuToggle>
+        <ion-icon name='menu'>&nbsp;Home</ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <p>Welcome, {{global.fullname}}!</p>
+  <p></p>
+
+  <ion-card *ngIf="offlineSurveyList && offlineSurveyList.length > 0">
+
+    <ion-card-header>
+      Audit(s) saved in OFFLINE mode
+    </ion-card-header>
+
+    <ion-card-content>
+
+        <ion-grid>
+
+          <ion-row class="header-row">
+            <ion-col col-1><div class="header-column">&nbsp;</div></ion-col>
+            <ion-col col-4><div class="header-column">Survey</div></ion-col>
+            <ion-col col-2><div class="header-column">Status</div></ion-col>
+            <ion-col col-2><div class="header-column">Start Date</div></ion-col>
+            <ion-col col-2><div class="header-column">Entered By</div></ion-col>
+            <ion-col col-1><div class="header-column">Location</div></ion-col>
+          </ion-row>
+
+
+          <ion-row *ngFor="let row of offlineSurveyList; let i = index;">
+            <ion-col col-1 *ngIf="getStatusDesc(row.survey_stat) === 'IN PROGRESS'"><button ion-button small [clear]="true" (click)="view(row.survey_id)">Edit</button></ion-col>
+            <ion-col col-1 *ngIf="getStatusDesc(row.survey_stat) !== 'IN PROGRESS'">&nbsp;</ion-col>
+            <ion-col col-4>{{row.survey_name}}</ion-col>
+            <ion-col col-2>{{getStatusDesc(row.survey_stat)}}</ion-col>
+            <ion-col col-2>{{row.inspct_date}}</ion-col>
+            <ion-col col-2>{{row.inspct_by}}</ion-col>
+            <ion-col col-1>{{row.location_cd}}</ion-col>
+          </ion-row>
+
+        </ion-grid>
+
+
+    </ion-card-content>
+
+  </ion-card>
+
+  <ion-card *ngIf="search.searchResultList && search?.searchResultList.length > 0">
+
+    <ion-card-header>
+      Audit(s) with status FINISHED/CLOSED
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <form #searchForm="ngForm" (ngSubmit)="onSearch()">
+
+        <ion-grid>
+
+          <ion-row class="header-row">
+            <ion-col col-1><div class="header-column">&nbsp;</div></ion-col>
+            <ion-col col-4><div class="header-column">Survey</div></ion-col>
+            <ion-col col-1><div class="header-column">Status</div></ion-col>
+            <ion-col col-2><div class="header-column">Start Date</div></ion-col>
+            <ion-col col-2><div class="header-column">Entered By</div></ion-col>
+            <ion-col col-1><div class="header-column">Location</div></ion-col>
+            <ion-col col-1><div class="header-column">Print</div></ion-col>
+          </ion-row>
+
+          <ion-row *ngFor="let row of search.searchResultList; let i = index;">
+            <ion-col col-1 *ngIf="row.survey_stat === 'IN PROGRESS'"><button ion-button small [clear]="true" (click)="view(row.survey_resp_id)">View</button></ion-col>
+            <ion-col col-1 *ngIf="row.survey_stat !== 'IN PROGRESS'">&nbsp;</ion-col>
+            <ion-col col-4>{{row.survey_name}}</ion-col>
+            <ion-col col-1>{{row.survey_stat}}</ion-col>
+            <ion-col col-2>{{row.inspct_date}}</ion-col>
+            <ion-col col-2>{{row.inspct_by}}</ion-col>
+            <ion-col col-1>{{row.location_cd}}</ion-col>
+            <ion-col col-1 *ngIf="row.survey_stat !== 'IN PROGRESS'">
+              <button type="button" ion-button [clear]="true" (click)="print(row.print_url)">
+                <ion-icon name="print"></ion-icon>
+              </button>
+            </ion-col>
+            <ion-col col-1 *ngIf="row.survey_stat === 'IN PROGRESS'">
+              &nbsp;
+            </ion-col>
+            <ion-col></ion-col>
+          </ion-row>
+
+        </ion-grid>
+
+      </form>
+
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>
+

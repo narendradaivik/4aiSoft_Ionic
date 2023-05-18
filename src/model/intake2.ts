@@ -1,0 +1,111 @@
+import {Intake2Commt} from './intake2-commt';
+import {Intake2WorkClass} from './intake2-work-class';
+import {Intake2License} from './intake2-license';
+import {Intake2CoverageLimit} from './intake2-coverage-limit';
+
+export class Intake2 {
+  
+  intake2_id: number;
+  intake_id: number;
+  intake_detail_id: number;
+  insd_claimno: string;
+  int_rec_type: string;
+  int_seq_no: number;
+  int_taxid: string;
+  int_company: string;
+  int_company2: string;
+  int_sal: string;
+  int_first: string;
+  int_last: string;
+  int_suf: string;
+  int_address1: string;
+  int_address2: string;
+  int_address3: string;
+  int_city: string;
+  int_st: string;
+  int_zip: string;
+  int_county: string;
+  int_country: string;
+  int_cntry_nm: string;
+  int_phone: string;
+  int_phone2: string;
+  int_phone3: string;
+  int_email1: string;
+  int_email2: string;
+  int_home_pho: string;
+  int_ppo_cod: string;
+  int_com_long: number;
+  int_com_latt: number;
+  int_age: string;
+  int_sex: string;
+  int_dob: number;
+  int_race: string;
+  int_employee: string;
+  int_rec_stat: string;
+  int_prosecut: string;
+  int_type_cod: string;
+  int_case_num: string;
+  int_veh_yr: number;
+  int_veh_make: string;
+  int_veh_mod: string;
+  int_veh_col: string;
+  int_veh_tag: string;
+  int_veh_st: string;
+  int_fein: string;
+  int_unemp: string;
+  int_indcd: string;
+  int_job: string;
+  int_mbe: string;
+  int_wbe: string;
+  int_lbe: string;
+  int_speclty1: string;
+  int_speclty2: string;
+  int_speclty3: string;
+  int_speclty4: string;
+  int_loc_cod: string;
+  int_policy: string;
+  int_contrctr: string;
+  apprv_rate: number;
+  carrier_rate: string;
+  add_ins_req: string;
+  ind_agreemt: string;
+  int_bus_txid: string;
+  int_bus_co1: string;
+  int_bus_co2: string;
+  int_bus_sal: string;
+  int_bus_lst: string;
+  int_bus_fst: string;
+  int_bus_suf: string;
+  int_bus_add1: string;
+  int_bus_add2: string;
+  int_bus_add3: string;
+  int_bus_city: string;
+  int_bus_st: string;
+  int_bus_zip: string;
+  int_bus_job: string;
+  int_bus_phon: string;
+  int_bus_pho2: string;
+  int_bus_pho3: string;
+  int_bus_eml1: string;
+  int_bus_eml2: string;
+  int_bus_long: number;
+  int_bus_latt: number;
+  int_bus_fein: string;
+  int_bus_unmp: string;
+  int_bus_incd: string;
+  entry_by: string;
+  entry_date: number;
+  modify_by: string;
+  modify_date: number;
+
+  intake2Commt: Intake2Commt;
+
+  intake2WorkClassList: Intake2WorkClass[];
+  intake2LicenseListList: Intake2License[];
+  pintake2CoverageLimitList: Intake2CoverageLimit[];
+  
+
+  constructor(values: Object = {}) {
+    Object.assign(this, values);
+  }
+}

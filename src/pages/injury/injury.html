@@ -1,0 +1,288 @@
+<!--
+  Generated template for the InjuryPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header padding>
+  <ion-toolbar>
+    <ion-buttons>
+      <button ion-button icon-only menuToggle>
+        <ion-icon name='menu' padding>&nbsp;Co-Worker Injury/Incident</ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <!-------------------------------------------
+   - STEP 1: SELECT A CO-WORKER FROM THE LIST -
+   -------------------------------------------->
+  <div *ngIf="intake.currentStep === '1'">
+    <ion-card no-padding>
+
+      <ion-card-header style="background-color: darkgray; padding: 5px;">
+        <div style="font-weight: bold;">INJURED CO-WORKER</div>
+        <hr style="vertical-align: top; height: 5px; color: black; background-color: black;margin-bottom:0px;">
+      </ion-card-header>
+
+      <ion-card-content style="background-color: lightgrey;">
+
+        <ion-grid>
+
+          <ion-row class="header-row">
+            <ion-col col-1><div class="header-column">&nbsp;</div></ion-col>
+            <ion-col col-1><div class="header-column">Employee ID</div></ion-col>
+            <ion-col col-3><div class="header-column">First Name</div></ion-col>
+            <ion-col col-3><div class="header-column">Last Name</div></ion-col>
+            <ion-col col-4><div class="header-column">&nbsp;</div></ion-col>
+          </ion-row>
+
+          <ion-row *ngFor="let employee of intake.employeeList; let i = index;">
+            <ion-col style="margin: auto;" col-1><div><button ion-button small [clear]="true" (click)="selectEmployee(employee.employee_id)">Select</button></div></ion-col>
+            <ion-col style="margin: auto;" col-1><div>{{employee.employee_id}}</div></ion-col>
+            <ion-col style="margin: auto;" col-3><div>{{employee.emp_fst_nm}}</div></ion-col>
+            <ion-col style="margin: auto;" col-3><div>{{employee.emp_lst_nm}}</div></ion-col>
+            <ion-col style="margin: auto;" col-4><div>&nbsp;</div></ion-col>
+          </ion-row>
+
+        </ion-grid>
+
+      </ion-card-content>
+
+    </ion-card>
+  </div>
+
+  <!------------------------------------------
+    - STEP 2: ENTER INCIDENT INFO            -
+   -------------------------------------------->
+
+  <div *ngIf="intake.currentStep === '2'">
+
+    <ion-card no-padding>
+
+      <ion-card-header style="background-color: darkgray; padding: 5px;">
+        <div style="font-weight: bold;">DATE AND TIME OF INCIDENT</div>
+        <hr style="vertical-align: top; height: 5px; color: black; background-color: black;margin-bottom:0px;">
+      </ion-card-header>
+
+      <ion-card-content style="background-color: lightgrey;">
+
+        <ion-grid>
+
+          <ion-row>
+
+            <ion-col col-6>
+              <ion-list style="margin: 0; background-color: lightgrey; width: 75%;" no-lines>
+
+                <ion-item style="background-color: lightgrey;" no-lines>
+                  <ion-label style="color:black; font-weight: bold; background-color: lightgrey;">Date of Incident</ion-label>
+                  <ion-datetime placeholder="Select Date" style="background-color: white;padding: 5px;width: 100px;" displayFormat="MM/DD/YYYY" [(ngModel)]="dateOfLoss"></ion-datetime>
+                </ion-item>
+
+                <ion-item style="background-color: lightgrey;" no-lines>
+                  <ion-label style="color:black; font-weight: bold; background-color: lightgrey;">Time of Incident</ion-label>
+                  <ion-datetime placeholder="Select Time" style="background-color: white;padding: 5px;width: 100px;" displayFormat="hh:mm A" pickerFormat="h mm A" [(ngModel)]="timeOfLoss"></ion-datetime>
+                </ion-item>
+
+              </ion-list>
+            </ion-col>
+
+            <ion-col col-6>
+              <ion-list style="margin: 0; background-color: lightgrey; width: 75%;" no-lines>
+
+                <ion-item style="background-color: lightgrey;" no-lines>
+                  <ion-label style="color:black; font-weight: bold; background-color: lightgrey;">Date Notified</ion-label>
+                  <ion-datetime placeholder="Select Date" style="background-color: white;padding: 5px;width: 100px;" displayFormat="MM/DD/YYYY" [(ngModel)]="intakeDetail.date_recvd"></ion-datetime>
+                </ion-item>
+
+              </ion-list>
+            </ion-col>
+
+          </ion-row>
+
+        </ion-grid>
+      </ion-card-content>
+
+    </ion-card>
+
+    <ion-card no-padding>
+
+      <ion-card-header style="background-color: darkgray; padding: 5px;">
+        <div style="font-weight: bold;">CO-WORKER INFORMATION</div>
+        <hr style="vertical-align: top; height: 5px; color: black; background-color: black;margin-bottom:0px;">
+      </ion-card-header>
+
+      <ion-card-content style="background-color: lightgrey;">
+
+        <ion-grid>
+
+          <ion-row>
+
+            <ion-col col-6>
+              <ion-list style="margin: 0; background-color: lightgrey; width: 75%;" no-lines>
+
+                <ion-item>
+                  <ion-label style="color:black; font-weight: bold; background-color: lightgrey; width: 50%;">Salutation</ion-label>
+                  <ion-select style="border: none; background-color: white;" [(ngModel)]="intakeDetail.claimant.salutation" name="salutation" >
+                    <ion-option *ngFor="let s of intake.salutationList;" [value]="s">{{s}}</ion-option>
+                  </ion-select>
+                </ion-item>
+
+                <ion-item style="background-color: lightgrey;" no-lines>
+                  <ion-label style="color:black; font-weight: bold; background-color: lightgrey; width: 50%;">First Name</ion-label>
+                  <ion-input style="border: none; width: 80%; background-color: white;"></ion-input>
+                </ion-item>
+
+                <ion-item style="background-color: lightgrey;" no-lines>
+                  <ion-label style="color:black; font-weight: bold; background-color: lightgrey; width: 50%;">Middle Initial</ion-label>
+                  <ion-input style="border: none; width: 20%; background-color: white;"></ion-input>
+                </ion-item>
+
+                <ion-item style="background-color: lightgrey;" no-lines>
+                  <ion-label style="color:black; font-weight: bold; background-color: lightgrey; width: 50%;">Last Name</ion-label>
+                  <ion-input style="border: none; width: 80%; background-color: white;"></ion-input>
+                </ion-item>
+
+              </ion-list>
+            </ion-col>
+
+            <ion-col col-6>
+              <ion-list style="margin: 0; background-color: lightgrey; width: 75%;" no-lines>
+
+                <ion-item style="background-color: lightgrey;" no-lines>
+                  <ion-label style="color:black; font-weight: bold; background-color: lightgrey; width: 50%;">Co-Worker ID</ion-label>
+                  <ion-input style="background-color: white; width: 80%;"></ion-input>
+                </ion-item>
+
+                <ion-item style="background-color: lightgrey;" no-lines>
+                  <ion-label style="color:black; font-weight: bold; background-color: lightgrey; width: 50%;">Phone #</ion-label>
+                  <ion-input style="background-color: white;width: 80%;"></ion-input>
+                </ion-item>
+
+              </ion-list>
+            </ion-col>
+
+          </ion-row>
+
+        </ion-grid>
+      </ion-card-content>
+
+    </ion-card>
+
+    <ion-card no-padding>
+
+      <ion-card-header style="background-color: darkgray; padding: 5px;">
+        <div style="font-weight: bold;">WORK INFORMATION</div>
+        <hr style="vertical-align: top; height: 5px; color: black; background-color: black;margin-bottom:0px;">
+      </ion-card-header>
+
+      <ion-card-content style="background-color: lightgrey;">
+        <ion-grid>
+
+          <ion-row style="background-color: white;">
+
+            <ion-col col-6>
+              <ion-list style="margin: 0; background-color: lightgrey; width: 75%;" no-lines>
+
+                <ion-item>
+                  <ion-label style="color:black; font-weight: bold; background-color: lightgrey; width: 50%;">Job Title</ion-label>
+                  <ion-input style="border: none; width: 80%; background-color: white;"></ion-input>
+                </ion-item>
+
+                <ion-item style="background-color: lightgrey;" no-lines>
+                  <ion-label style="color:black; font-weight: bold; background-color: lightgrey; width: 50%;">Name of Supervisor</ion-label>
+                  <ion-input style="border: none; width: 80%; background-color: white;"></ion-input>
+                </ion-item>
+
+                <ion-item style="background-color: lightgrey;" no-lines>
+                  <ion-label style="color:black; font-weight: bold; background-color: lightgrey; width: 50%;">Supervisor ID</ion-label>
+                  <ion-input style="border: none; width: 20%; background-color: white;"></ion-input>
+                </ion-item>
+
+              </ion-list>
+            </ion-col>
+
+            <ion-col col-6>
+              <ion-list style="margin: 0; background-color: lightgrey; width: 75%;" no-lines>
+
+                <ion-item style="background-color: lightgrey;" no-lines>
+                  <ion-label style="color:black; font-weight: bold; background-color: lightgrey; width: 50%;">Full/Part Time</ion-label>
+                  <ion-select  style="border: none; background-color: white;" name="emp_type" [(ngModel)]="intakeDetail.employee.emp_type">
+                    <ion-option value=""></ion-option>
+                    <ion-option value="P">FULL-TIME</ion-option>
+                    <ion-option value="F">PART-TIME</ion-option>
+                  </ion-select>
+                </ion-item>
+
+                <ion-item style="background-color: lightgrey;" no-lines>
+                  <ion-label style="color:black; font-weight: bold; text-decoration: underline; background-color: lightgrey; width: 100%;">Scheduled Working Hours</ion-label>
+                </ion-item>
+
+                <ion-row>
+
+                  <ion-item col-6>
+                    <ion-label style="color:black; font-weight: bold; background-color: lightgrey;">From</ion-label>
+                    <ion-datetime placeholder="Select Time" style="background-color: white;padding: 5px;" displayFormat="hh:mm A" pickerFormat="h mm A" [(ngModel)]="intakeDetail.employee.msc_efld_04"></ion-datetime>
+                  </ion-item>
+                  <ion-item col-6>
+                    <ion-label style="color:black; font-weight: bold; background-color: lightgrey;">To</ion-label>
+                    <ion-datetime placeholder="Select Time" style="background-color: white;padding: 5px;" displayFormat="hh:mm A" pickerFormat="h mm A" [(ngModel)]="intakeDetail.employee.msc_efld_05"></ion-datetime>
+                  </ion-item>
+                </ion-row>
+
+
+              </ion-list>
+            </ion-col>
+
+          </ion-row>
+
+        </ion-grid>
+
+      </ion-card-content>
+
+    </ion-card>
+
+    <ion-row style="background-color: white;">
+      <ion-col style="background-color: white;" col-6 >
+        <ion-card no-padding>
+
+          <ion-card-header style="background-color: darkgray; padding: 5px;">
+            <div style="font-weight: bold;">INJURY/INCIDENT DESCRIPTION</div>
+            <hr style="vertical-align: top; height: 5px; color: black; background-color: black;margin-bottom:0px;">
+          </ion-card-header>
+
+          <ion-card-content style="background-color: lightgrey;">
+
+            <ion-item>
+              <ion-textarea rows="10" maxLength="1000"  autocomplete="true" spellcheck=“true” style="border: none; background-color: white;"></ion-textarea>
+            </ion-item>
+
+          </ion-card-content>
+
+        </ion-card>
+      </ion-col>
+
+      <ion-col style="background-color: white;" col-6 >
+        <ion-card no-padding>
+
+          <ion-card-header style="background-color: darkgray; padding: 5px;">
+            <div style="font-weight: bold;">WITNESS INFORMATION</div>
+            <hr style="vertical-align: top; height: 5px; color: black; background-color: black;margin-bottom:0px;">
+          </ion-card-header>
+
+          <ion-card-content style="background-color: lightgrey;">
+
+
+
+          </ion-card-content>
+
+        </ion-card>
+      </ion-col>
+
+    </ion-row>
+
+  </div>
+
+</ion-content>

@@ -1,0 +1,9 @@
+{
+  "name": "field-user-tablet",
+  "integrations": {
+    "cordova": {},
+    "capacitor": {}
+  },
+  "type": "ionic-angular",
+  "id": "4d6cf4da"
+}

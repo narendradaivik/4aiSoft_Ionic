@@ -1,0 +1,168 @@
+page-survey {
+
+  .survey-header-row {
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    background: black;
+  }
+
+  .survey-header-column {
+    background: black;
+    font-weight: bold;
+    color: white;
+    font-size: 12px;
+  }
+
+  .survey-select-column {
+    background: #808080;
+    font-weight: bold;
+    color: black;
+    font-size: 12px;
+  }
+
+
+
+  .survey-subheader-column {
+    background: darkgray;
+    font-weight: bold;
+    color: black;
+    font-size: 12px;
+  }
+
+  .odd {
+    font-size: 10px;
+    padding: 0px;
+    border: none;
+    background: lightgray;
+    box-shadow: none;
+  }
+
+  .even {
+    font-size: 10px;
+    padding: 0px;
+    border: none;
+    background: white;
+    box-shadow: none;
+  }
+
+  /*
+  ion-row:nth-of-type(odd) {
+    background: lightgray;
+    border: none;
+    padding: 0px;
+
+    ion-col {
+      font-size: 10px;
+      padding: 0px;
+      border: none;
+      background: lightgray;
+      box-shadow: none;
+    }
+    ion-item {
+      font-size: 10px;
+      padding: 0px;
+      border: none;
+      background: lightgray;
+      box-shadow: none;
+    }
+    ion-label {
+      font-size: 10px;
+      border: none;
+      background: lightgray;
+    }
+
+    ion-radio {
+      font-size: 10px;
+      border: none;
+      background: lightgray;
+      vertical-align: text-top;
+      box-shadow: none;
+      margin-top: 0px;
+      margin-bottom: 0px;
+      margin-left: 0px;
+      margin-right: 0px;
+    }
+  }
+
+  ion-row:nth-of-type(even) {
+    font-size: 10px;
+    background: white;
+    border: none;
+    padding: 0px;
+
+    ion-col {
+      font-size: 10px;
+      padding: 0px;
+      border: none;
+      background: white;
+      box-shadow: none;
+
+    }
+    ion-item {
+      font-size: 10px;
+      padding: 0px;
+      border: none;
+      background: white;
+      box-shadow: none;
+    }
+    ion-label {
+      font-size: 10px;
+      border: none;
+      background: white;
+    }
+    ion-radio {
+      font-size: 10px;
+      border: none;
+      background: white;
+      box-shadow: none;
+      margin-top: 0px;
+      margin-bottom: 0px;
+      margin-left: 0px;
+      margin-right: 0px;
+    }
+  }
+  */
+
+  .progress-title {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .progress-bar {
+    background-color: lightgray;
+    height: 22px;
+    width: 100%;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    margin-left: 0%;
+    margin-right: 0%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;
+    border-radius: 5px;
+
+    span {
+      text-align: center;
+      font-weight: bold;
+      color: white;
+      display: inline-block;
+      vertical-align: middle;
+      height: 100%;
+      border-radius: 3px;
+      box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset;
+      background-color: black;
+      transition: width .4s ease-in-out;
+    }
+  }
+
+  .progress-nav {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+}

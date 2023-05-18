@@ -1,0 +1,62 @@
+export class Location {
+  location_cd: string;
+  corp_level1: string;
+  level1_code: string;
+  corp_level2: string;
+  level2_code: string;
+  corp_level3: string;
+  level3_code: string;
+  corp_level4: string;
+  level4_code: string;
+  corp_level5: string;
+  level5_code: string;
+  loc_name: string;
+  address1: string;
+  address2: string;
+  city: string;
+  state: string;
+  zip: string;
+  county: string;
+  country: string;
+  department: string;
+  shift: string;
+  contact1: string;
+  contact2: string;
+  title1: string;
+  title2: string;
+  telephone1: string;
+  telephone2: string;
+  fax1: string;
+  fax2: string;
+  emailaddr1: string;
+  emailaddr2: string;
+  present_stat: string;
+  eff_date: number;
+  acquire_date: number;
+  sold_date: number;
+  moved_date: number;
+  closed_date: number;
+  self_insured: string;
+  retain_liab: string;
+  comment1: string;
+  comment2: string;
+  divloc: string;
+  wcbranch1: string;
+  wcbranch2: string;
+  own_fran: string;
+  longitude: number;
+  latitude: number;
+  company_loc: string;
+  assmnt_score: number;
+  resv_code1: string;
+  resv_code2: string;
+  resv_code3: string;
+  entry_by: string;
+  entry_date: number;
+  modify_by: string;
+  modify_date: number;
+
+  constructor(values: Object = {}) {
+    Object.assign(this, values);
+  }
+}

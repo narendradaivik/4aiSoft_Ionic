@@ -1,0 +1,148 @@
+
+<ion-menu [content]="content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-list>
+      <ion-list>
+        <ion-item-group>
+          <ion-item (click)="navigateHome()">
+            <ion-icon name="home" item-left></ion-icon><div class="menu-option">Home</div></ion-item>
+        </ion-item-group>
+        <ion-item-group>
+          <ion-item (click)="navigateSurvey()">
+            <ion-icon name="document" item-left></ion-icon><div class="menu-option">Complete An Audit</div></ion-item>
+        </ion-item-group>
+        <ion-item-group *ngIf="showMenuOption">
+          <ion-item (click)="navigateIllnessLog()">
+            <ion-icon name="sad" item-left></ion-icon><div class="menu-option">Co-Worker Illness Log</div></ion-item>
+        </ion-item-group>
+        <ion-item-group *ngIf="showMenuOption">
+          <ion-item (click)="navigateInjury()">
+            <ion-icon name="medkit" item-left></ion-icon><div class="menu-option">Co-Worker Injury/Incident</div></ion-item>
+        </ion-item-group>
+        <ion-item-group *ngIf="showMenuOption">
+          <ion-item (click)="navigateRestrictions()">
+            <ion-icon name="close-circle" item-left></ion-icon><div class="menu-option">Restrictions Not Work Related</div></ion-item>
+        </ion-item-group>
+        <ion-item-group *ngIf="showMenuOption">
+          <ion-item (click)="navigatePropertyDamage()">
+            <ion-icon name="warning" item-left></ion-icon><div class="menu-option">Property Damage Incident</div></ion-item>
+        </ion-item-group>
+        <ion-item-group *ngIf="showMenuOption">
+          <ion-item (click)="navigateGuest()">
+            <ion-icon name="man" item-left></ion-icon><div class="menu-option">Guest Injury or Incident</div></ion-item>
+        </ion-item-group>
+        <ion-item-group *ngIf="showMenuOption">
+          <ion-item (click)="navigateCarWash()">
+            <ion-icon name="car" item-left></ion-icon><div class="menu-option">Car Wash Incident</div></ion-item>
+        </ion-item-group>
+        <ion-item-group *ngIf="showMenuOption">
+          <ion-item (click)="navigateProduct()">
+            <ion-icon name="cube" item-left></ion-icon><div class="menu-option">Product Incident</div></ion-item>
+        </ion-item-group>
+        <ion-item-group *ngIf="showMenuOption">
+          <ion-item (click)="navigateFuel()">
+            <ion-icon name="outlet" item-left></ion-icon><div class="menu-option">Fuel Incident</div></ion-item>
+        </ion-item-group>
+        <ion-item-group *ngIf="showMenuOption">
+          <ion-item (click)="navigateAuto()">
+            <ion-icon name="medical" item-left></ion-icon><div class="menu-option">Auto Accident</div></ion-item>
+        </ion-item-group>
+        <ion-item-group *ngIf="showMenuOption">
+          <ion-item (click)="navigateAuto()">
+            <ion-icon name="medical" item-left></ion-icon><div class="menu-option">Auto Accident</div></ion-item>
+        </ion-item-group>
+        <ion-item-group>
+          <ion-item (click)="navigateLogout()">
+            <ion-icon name="log-out" item-left></ion-icon><div class="menu-option">Logout</div></ion-item>
+        </ion-item-group>
+      </ion-list>
+    </ion-list>
+  </ion-content>
+
+</ion-menu>
+
+<!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
+
+<!--
+<ion-split-pane [when]="splitPaneProvider.getSplitPane()">
+
+  <ion-menu [content]="content">
+
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+      <br>
+      <ion-list>
+        <ion-item-group>
+          <ion-item (click)="navigateHome()">
+            <ion-icon name="home" item-left></ion-icon><div class="menu-option">Home</div></ion-item>
+        </ion-item-group>
+        <ion-item-group>
+          <ion-item (click)="navigateSurvey()">
+            <ion-icon name="document" item-left></ion-icon><div class="menu-option">Complete A Survey</div></ion-item>
+        </ion-item-group>
+        <ion-item-group>
+          <ion-item (click)="navigateIllnessLog()">
+            <ion-icon name="sad" item-left></ion-icon><div class="menu-option">Co-Worker Illness Log</div></ion-item>
+        </ion-item-group>
+        <ion-item-group>
+          <ion-item (click)="navigateInjury()">
+            <ion-icon name="medkit" item-left></ion-icon><div class="menu-option">Co-Worker Injury/Incident</div></ion-item>
+        </ion-item-group>
+        <ion-item-group>
+          <ion-item (click)="navigateRestrictions()">
+            <ion-icon name="close-circle" item-left></ion-icon><div class="menu-option">Restrictions Not Work Related</div></ion-item>
+        </ion-item-group>
+        <ion-item-group>
+          <ion-item (click)="navigatePropertyDamage()">
+            <ion-icon name="warning" item-left></ion-icon><div class="menu-option">Property Damage Incident</div></ion-item>
+        </ion-item-group>
+        <ion-item-group>
+          <ion-item (click)="navigateGuest()">
+            <ion-icon name="man" item-left></ion-icon><div class="menu-option">Guest Injury or Incident</div></ion-item>
+        </ion-item-group>
+        <ion-item-group>
+          <ion-item (click)="navigateCarWash()">
+            <ion-icon name="car" item-left></ion-icon><div class="menu-option">Car Wash Incident</div></ion-item>
+        </ion-item-group>
+        <ion-item-group>
+          <ion-item (click)="navigateProduct()">
+            <ion-icon name="cube" item-left></ion-icon><div class="menu-option">Product Incident</div></ion-item>
+        </ion-item-group>
+        <ion-item-group>
+          <ion-item (click)="navigateFuel()">
+            <ion-icon name="outlet" item-left></ion-icon><div class="menu-option">Fuel Incident</div></ion-item>
+        </ion-item-group>
+        <ion-item-group>
+          <ion-item (click)="navigateAuto()">
+            <ion-icon name="medical" item-left></ion-icon><div class="menu-option">Auto Accident</div></ion-item>
+        </ion-item-group>
+      </ion-list>
+      <!--
+
+      <ion-list>Product Incident (Food Illness, Food Product, Non-Food Product, Fresh Meat)</ion-list>
+      <ion-list>Fuel Incident (Other then Fuel Spills)</ion-list>
+      <ion-list>Auto Accident</ion-list>
+
+    </ion-content>
+
+  </ion-menu>
+
+  <!-- the main content
+  <ion-nav [root]="rootPage" main #content></ion-nav>
+
+</ion-split-pane>
+-->
+
+

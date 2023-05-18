@@ -1,0 +1,387 @@
+<!--
+  Generated template for the SurveyPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header >
+  <ion-toolbar>
+    <ion-buttons>
+      <button ion-button icon-only menuToggle>
+        <ion-icon name='menu'>&nbsp;Audit</ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding #top id="top" name="top">
+
+  <div *ngIf="saveMsg!==null && saveMsg!==undefined && saveMsg.length!=0" align="center">
+    <p style="background-color: black; color: white;"> {{saveMsg}}</p>
+  </div>
+
+  <div align="left" *ngIf="validationMsg.length > 0" #validation id="validation" name="validation">
+    <p style="color: red;">Please correct the following error(s):</p>
+    <ul id="validationMsg" name="validationMsg">
+      <li style="color: red;" *ngFor="let m of validationMsg">{{ m }}</li>
+    </ul>
+    <br>
+  </div>
+
+  <table width="100%" cellpadding="10" cellspacing="10">
+    <tr style="background-color: lightgrey;width: 100%;">
+      <td width="10%"><div style="font-weight: bold;">Audit</div></td>
+      <td width="35%">
+        <select [(ngModel)]="survey.survey_id" name="selectSurvey" (ngModelChange)="onChangeSurvey($event)" disabled="{{disableSurveySelection}}" style="max-width: 90%;" align-items-start>
+          <option *ngFor="let s of survey.surveyDropDownList;" [value]="s.survey_id">{{s.survey_name}}</option>
+        </select>
+      </td>
+      <td width="10%"><div style="font-weight: bold;">Location ID</div></td>
+      <td width="25%">
+        {{global.location}}
+      </td>
+      <td width="10%"><div style="font-weight: bold;">Period</div></td>
+      <td width="10%">
+        <ion-input type="text" [readonly]="true" [(ngModel)]="survey.period"></ion-input>
+      </td>
+    </tr>
+    <tr style="background-color: lightgrey;width: 100%;">
+      <td width="10%"><div style="font-weight: bold;">Entered By</div></td>
+      <td width="35%">
+        {{global.fullname}}
+      </td>
+      <td width="10%"><div style="font-weight: bold;">Entry Date</div></td>
+      <td width="25%">
+        {{displayNow()}}
+      </td>
+      <td width="10%">&nbsp;</td>
+      <td width="10%">
+        &nbsp;
+      </td>
+    </tr>
+  </table>
+
+  <div *ngIf="!isOfflineMode">
+    <form #surveyForm="ngForm" (ngSubmit)="onSubmit()">
+
+      <div class="progress-bar" *ngIf="survey.display_type === 'CATEGORY'">
+        <span [style.width]="survey.progress.percentComplete">{{survey.progress.label}}</span>
+      </div>
+
+
+      <table align="center" width="100%">
+          <tr>
+            <td width="20%">&nbsp;</td>
+            <td width="60%">
+              <div class="progress-title">{{categoryName}}</div>
+            </td>
+            <td width="20%" style="text-align: right;white-space: nowrap;">
+              <button ion-button (click)="onSave()" color="dark">Save</button>
+            </td>
+          </tr>
+      </table>
+
+      <ion-grid>
+
+        <ion-row class="survey-header-row">
+         <ion-col col-1><div class="survey-header-column">#</div></ion-col>
+         <ion-col col-2><div class="survey-header-column">Question</div></ion-col>
+          <ion-col col-1><div class="survey-header-column" style="text-align: center;">!</div></ion-col>
+         <ion-col col-1><div class="survey-header-column" style="text-align: center;">*</div></ion-col>
+         <ion-col col-3><div class="survey-header-column" style="text-align: center;">Answer</div></ion-col>
+         <ion-col col-1><div class="survey-header-column" style="text-align: center;">*</div></ion-col>
+         <ion-col col-2><div class="survey-header-column">Comment</div></ion-col>
+         <ion-col col-1><div class="survey-header-column">Pic</div></ion-col>
+       </ion-row>
+
+
+       <ion-row *ngFor="let row of survey.surveyDetailList; let i = index;">
+         <ion-col col-1 align-self-center>{{row.question_no}}</ion-col>
+
+         <ion-col col-2 align-self-center text-wrap >{{row.question}}</ion-col>
+
+         <ion-col col-1 align-self-center text-wrap >
+           <div style="text-align: center;" *ngIf="row.guidance3.replace('nullnull','').replace('null','').length > 0">
+            <button ion-button icon-only (click)="onPopover($event,row.guidance3)" [clear]="true" color="black" end>
+              <ion-icon name="information-circle"></ion-icon>
+            </button>
+           </div>
+         </ion-col>
+
+         <ion-col col-1 align-self-center>
+           <div *ngIf="row.quest_reqrd === 'Y'" style="color: red; text-align: center;">*</div>
+           <div *ngIf="row.quest_reqrd !== 'Y'">&nbsp;</div>
+         </ion-col>
+
+         <ion-col col-3 align-self-center>
+
+           <div *ngIf="row.question_type === 8 || row.question_type === 2">
+             <ion-grid>
+               <ion-row radio-group name="quest_answer_{{i}}" [(ngModel)]="row.quest_answer">
+                 <ion-col align-self-center *ngFor="let choice of row.surveyDetailChoiceList; let cindex = index;">
+                   <ion-item>
+                     <ion-label><div style="text-align: right;">{{choice.quest_fldval}}</div></ion-label>
+                     <ion-radio value="{{choice.quest_fldval}}" (ionSelect)="onFieldChange(i,choice)"></ion-radio>
+                   </ion-item>
+                 </ion-col>
+               </ion-row>
+             </ion-grid>
+           </div>
+
+           <div *ngIf="row.question_type === 4">
+             <div style="position: absolute; bottom: 0px;">
+               <select  [(ngModel)]="row.quest_answer" name="quest_answer_{{i}}" (change)="onFieldChange2(i, $event.target.value)">
+                 <option *ngFor="let choice of row.surveyDetailChoiceList;" [value]="choice.quest_fldval" >{{choice.quest_fldval}}</option>
+               </select>
+             </div>
+           </div>
+
+           <div *ngIf="row.question_type === 3">
+              <ion-textarea placeholder="Answer" name="quest_answer_{{i}}" [(ngModel)]="row.quest_answer"></ion-textarea>
+           </div>
+
+           <div *ngIf="row.question_type === 9">
+              <ion-datetime  placeholder="Click here to select a date." displayFormat="MM/DD/YYYY" name="quest_answer_{{i}}" [(ngModel)]="row.quest_answer"></ion-datetime>
+           </div>
+
+           <div *ngIf="row.question_type !== 8 && row.question_type !== 2 && row.question_type !== 3">
+             &nbsp;
+           </div>
+
+         </ion-col>
+
+         <ion-col col-1 align-self-center>
+           <div *ngIf="row.qst_com_req === 'Y'" style="color: red; text-align: center;">*</div>
+           <div *ngIf="row.qst_com_req !== 'Y'">&nbsp;</div>
+         </ion-col>
+
+         <ion-col col-2 align-self-center>
+           <div *ngIf="row.question_com === 'Y'">
+             <ion-textarea placeholder="Enter a Comment" name="quest_cmmnt_{{i}}" [(ngModel)]="row.quest_commnt"></ion-textarea>
+           </div>
+           <div *ngIf="row.question_com !== 'Y'">
+             &nbsp;
+           </div>
+         </ion-col>
+
+         <ion-col col-1 align-self-center>
+
+           <ion-grid>
+             <ion-row>
+               <ion-col>
+                  <button type="file" ion-button [clear]="true" color="black" (click)="getPicture($event,row)">
+                    <ion-icon name="camera"></ion-icon>
+                  </button>
+               </ion-col>
+             </ion-row>
+             <ion-row *ngFor="let img of row.surveyImageList;">
+               <ion-col>
+                 <div *ngIf="img.survey_resp_img_id === undefined">
+                   {{ img.image_name }}
+                 </div>
+                 <div *ngIf="img.survey_resp_img_id !== undefined">
+                   <button ion-button (click)="onImagePopover($event,img)" [clear]="true" color="black" end>{{ img.image_name }}</button>
+                 </div>
+               </ion-col>
+             </ion-row>
+           </ion-grid>
+
+         </ion-col>
+       </ion-row>
+     </ion-grid>
+
+      <table width="100%" *ngIf="survey.display_type === 'CATEGORY'">
+        <tr>
+          <td width="25%" style="text-align: left;" *ngIf="survey.progress.previousId == '-1' ">
+            &nbsp;
+          </td>
+          <td width="25%" style="text-align: left;white-space: nowrap;" *ngIf="survey.progress.previousId !== '-1'">
+            <button type="button" (click)="onMultiStep('PREVIOUS')" class="progress-nav"><< PREVIOUS</button>
+          </td>
+          <td width="50%"> &nbsp; </td>
+          <td width="25%" style="text-align: right;white-space: nowrap;" *ngIf="survey.progress.nextId === 'COMPLETE'" >
+            <button type="button" (click)="onMultiStep('NEXT')" class="progress-nav">COMPLETE</button>
+          </td>
+          <td width="25%" style="text-align: right;white-space: nowrap;" *ngIf="survey.progress.nextId !== 'COMPLETE'">
+            <button type="button" (click)="onMultiStep('NEXT')" class="progress-nav">NEXT >></button>
+          </td>
+        </tr>
+      </table>
+
+      <table width="100%" *ngIf="showCompleteButton">
+        <tr>
+          <td width="100%" style="text-align: right;white-space: nowrap;">
+            <button ion-button (click)="onComplete()" [clear]="true">COMPLETE</button>
+          </td>
+        </tr>
+      </table>
+
+    </form>
+  </div>
+
+  <div *ngIf="isOfflineMode">
+    <form #surveyForm="ngForm" (ngSubmit)="onSubmit()">
+
+      <div class="progress-bar" *ngIf="survey.display_type === 'CATEGORY'">
+        <span [style.width]="survey.progress.percentComplete">{{survey.progress.label}}</span>
+      </div>
+
+
+      <table align="center" width="100%">
+        <tr>
+          <td width="20%">&nbsp;</td>
+          <td width="60%">
+            <div *ngIf="survey.display_type === 'CATEGORY'" class="progress-title" align="center">{{categoryName}}</div>
+            <div *ngIf="survey.display_type !== 'CATEGORY'" class="progress-title" align="center">{{survey.display_name}}</div>
+          </td>
+          <td width="20%" style="text-align: right;white-space: nowrap;">
+            <button ion-button (click)="onSave()" color="dark">Save</button>
+          </td>
+        </tr>
+      </table>
+
+      <ion-grid>
+
+        <ion-row class="survey-header-row">
+          <ion-col col-1><div class="survey-header-column">#</div></ion-col>
+          <ion-col col-2><div class="survey-header-column">Question</div></ion-col>
+          <ion-col col-1><div class="survey-header-column" style="text-align: center;">!</div></ion-col>
+          <ion-col col-1><div class="survey-header-column" style="text-align: center;">*</div></ion-col>
+          <ion-col col-3><div class="survey-header-column" style="text-align: center;">Answer</div></ion-col>
+          <ion-col col-1><div class="survey-header-column" style="text-align: center;">*</div></ion-col>
+          <ion-col col-2><div class="survey-header-column">Comment</div></ion-col>
+          <ion-col col-1><div class="survey-header-column">Pic</div></ion-col>
+        </ion-row>
+
+        <div *ngFor="let row of offlineSurvey.surveyDetailList; let i = index;">
+
+          <ion-row *ngIf="survey.display_type === 'SINGLE' && row.question_no === 1">
+            <ion-col col-12 align-self-center> <div align="center" class="survey-subheader-column">{{row.question_cat}}</div></ion-col>
+          </ion-row>
+
+          <ion-row [ngClass]="(i % 2 == 0) ? 'even' : 'odd'">
+            <ion-col [ngClass]="(i % 2 == 0) ? 'even' : 'odd'" col-1 align-self-center>{{row.question_no}}</ion-col>
+
+            <ion-col [ngClass]="(i % 2 == 0) ? 'even' : 'odd'" col-2 align-self-center text-wrap >{{row.question}}</ion-col>
+
+            <ion-col [ngClass]="(i % 2 == 0) ? 'even' : 'odd'" col-1 align-self-center text-wrap >
+              <div style="text-align: center;" *ngIf="row.guidance3.replace('nullnull','').replace('null','').length > 0">
+                <button ion-button icon-only (click)="onPopover($event,row.guidance3)" [clear]="true" color="black" end>
+                  <ion-icon name="information-circle"></ion-icon>
+                </button>
+              </div>
+            </ion-col>
+
+            <ion-col [ngClass]="(i % 2 == 0) ? 'even' : 'odd'" col-1 align-self-center>
+              <div *ngIf="row.quest_reqrd === 'Y'" style="color: red; text-align: center;">*</div>
+              <div *ngIf="row.quest_reqrd !== 'Y'">&nbsp;</div>
+            </ion-col>
+
+            <ion-col [ngClass]="(i % 2 == 0) ? 'even' : 'odd'" col-3 align-self-center>
+
+              <div *ngIf="row.question_type === 8 || row.question_type === 2">
+                <ion-grid>
+                  <ion-row [ngClass]="(i % 2 == 0) ? 'even' : 'odd'" radio-group name="quest_answer_{{i}}" [(ngModel)]="row.quest_answer">
+                    <ion-col [ngClass]="(i % 2 == 0) ? 'even' : 'odd'" align-self-center *ngFor="let choice of row.surveyDetailChoiceList; let cindex = index;">
+                      <ion-item [ngClass]="(i % 2 == 0) ? 'even' : 'odd'">
+                        <ion-label><div style="text-align: right;">{{choice.quest_fldval}}</div></ion-label>
+                        <ion-radio value="{{choice.quest_fldval}}" (ionSelect)="onFieldChange(i,choice)"></ion-radio>
+                      </ion-item>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </div>
+
+              <div *ngIf="row.question_type === 4">
+                <div style="position: absolute; bottom: 0px;">
+                  <select  [ngClass]="(i % 2 == 0) ? 'even' : 'odd'" [(ngModel)]="row.quest_answer" name="quest_answer_{{i}}" (change)="onFieldChange2(i, $event.target.value)">
+                    <option *ngFor="let choice of row.surveyDetailChoiceList;" [value]="choice.quest_fldval" >{{choice.quest_fldval}}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div *ngIf="row.question_type === 3">
+                <ion-textarea [ngClass]="(i % 2 == 0) ? 'even' : 'odd'" placeholder="Answer" name="quest_answer_{{i}}" [(ngModel)]="row.quest_answer"></ion-textarea>
+              </div>
+
+              <div *ngIf="row.question_type === 9">
+                <ion-datetime  placeholder="Click here to select a date." displayFormat="MM/DD/YYYY" name="quest_answer_{{i}}" [(ngModel)]="row.quest_answer"></ion-datetime>
+              </div>
+
+              <div *ngIf="row.question_type !== 8 && row.question_type !== 2 && row.question_type !== 3">
+                &nbsp;
+              </div>
+
+            </ion-col>
+
+            <ion-col [ngClass]="(i % 2 == 0) ? 'even' : 'odd'" col-1 align-self-center>
+              <div *ngIf="row.qst_com_req === 'Y'" style="color: red; text-align: center;">*</div>
+              <div *ngIf="row.qst_com_req !== 'Y'">&nbsp;</div>
+            </ion-col>
+
+            <ion-col [ngClass]="(i % 2 == 0) ? 'even' : 'odd'" col-2 align-self-center>
+              <div *ngIf="row.question_com === 'Y'">
+                <ion-textarea placeholder="Enter a Comment" name="quest_cmmnt_{{i}}" [(ngModel)]="row.quest_commnt" maxlength="250"></ion-textarea>
+              </div>
+              <div *ngIf="row.question_com !== 'Y'">
+                &nbsp;
+              </div>
+            </ion-col>
+
+            <ion-col [ngClass]="(i % 2 == 0) ? 'even' : 'odd'" col-1 align-self-center>
+
+              <ion-grid>
+                <ion-row>
+                  <ion-col>
+                    <button type="file" ion-button [clear]="true" color="black" (click)="getPicture($event,row)">
+                      <ion-icon name="camera"></ion-icon>
+                    </button>
+                  </ion-col>
+                </ion-row>
+                <ion-row *ngFor="let img of row.surveyImageList;">
+                  <ion-col>
+                    <div *ngIf="img.survey_resp_img_id === undefined">
+                      {{ img.image_name }}
+                    </div>
+                    <div *ngIf="img.survey_resp_img_id !== undefined">
+                      <button ion-button (click)="onImagePopover($event,img)" [clear]="true" color="black" end>{{ img.image_name }}</button>
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+
+            </ion-col>
+          </ion-row>
+        </div>
+      </ion-grid>
+
+      <table width="100%" *ngIf="survey.display_type === 'CATEGORY'">
+        <tr>
+          <td width="25%" style="text-align: left;" *ngIf="survey.progress.previousId == '-1' ">
+            &nbsp;
+          </td>
+          <td width="25%" style="text-align: left;white-space: nowrap;" *ngIf="survey.progress.previousId !== '-1'">
+            <button type="button" (click)="onMultiStep('PREVIOUS')" class="progress-nav" [disabled]="disableButton"><< PREVIOUS</button>
+          </td>
+          <td width="50%"> &nbsp; </td>
+          <td width="25%" style="text-align: right;white-space: nowrap;" *ngIf="survey.progress.nextId === 'COMPLETE'" >
+            <button type="button" (click)="onMultiStep('NEXT')" class="progress-nav" [disabled]="disableButton">COMPLETE</button>
+          </td>
+          <td width="25%" style="text-align: right;white-space: nowrap;" *ngIf="survey.progress.nextId !== 'COMPLETE'">
+            <button type="button" (click)="onMultiStep('NEXT')" class="progress-nav" [disabled]="disableButton">NEXT >></button>
+          </td>
+        </tr>
+      </table>
+
+      <table width="100%" *ngIf="showCompleteButton">
+        <tr>
+          <td width="100%" style="text-align: right;white-space: nowrap;">
+            <button ion-button (click)="onComplete()" [clear]="true" [disabled]="disableButton">COMPLETE</button>
+          </td>
+        </tr>
+      </table>
+
+    </form>
+  </div>
+
+</ion-content>
